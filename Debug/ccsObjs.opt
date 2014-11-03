@@ -1,0 +1,1 @@
+"./Network.obj" "./TI_MSP_UART.obj" "./bsp.obj" "./hal_cc2500.obj" "./hal_pin.obj" "./hal_usci_spi.obj" "./main.obj" "../lnk_msp430f2274.cmd" -l"libc.a" 
