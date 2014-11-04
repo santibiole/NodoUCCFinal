@@ -16,7 +16,7 @@
  * @def definición de constantes.
  *
  */
-#define MY_ADDRESS          2
+#define MY_ADDRESS          1
 
 #define MAX_CANT_REINTENTOS	3
 #define MAX_CANT_RETRANS    3
@@ -33,7 +33,9 @@ typedef enum {
 	REQ_TEMP = 0, /**< Request temperatura */
 	RESP_TEMP,    /**< Respuesta Temperatura */
 	PING,         /**< Ping */
-	PONG          /**< Pong */
+	PONG,         /**< Pong */
+	REQ_LED,	  /**< Request On Off Led */
+	RESP_LED	  /**< Respuesta On Off Led */
 }type_Comando;
 
 

@@ -11,7 +11,7 @@
 #define TAM_URX_BUFFER 7
 #define TAM_URX_TRAMA_ENCABEZADO 3
 
-//union u_Trama rxTrama;
+union u_Trama rxTrama;
 union u_rx {
 	struct str_trama{
 		uint8_t encabezado[TAM_URX_TRAMA_ENCABEZADO];
@@ -37,7 +37,7 @@ char datos[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
  */
 void app_comando_respTemp(uint8_t *datos);
 void app_comando_reqTemp(uint8_t *datos);
-//void app_comando_reqLed(uint8_t *datos);
+void app_comando_reqLed(uint8_t *datos);
 void borrar_uartrx_buffer (void);
 int analizar_dato_uartrx(int estado_anterior);
 int analizar_trama_uartrx (void);
@@ -78,8 +78,8 @@ void main(void) {
 	    			if(uartrx_dato_disponible == 1){
 	    				estado = analizar_dato_uartrx(estado_anterior);
 	    	    		if(analizar_trama_uartrx()){
-	    	    			led_On(Led2);
 	    	    			borrar_uartrx_buffer();
+	    	    			net_SendRequest(0x02, REQ_LED, datos);
 	    				}
 	    			}
 	    }
@@ -106,18 +106,18 @@ void app_comando_reqTemp (uint8_t *datos){
  * brief:función para solicitar el prendido/apagado de los leds
  *
  */
-//void app_comando_reqLed (uint8_t *datos){
-//	if (rxTrama.campos.Dato[0]=='1'){
-//		if (rxTrama.campos.Dato[1]=='1'){
-//			led_On(Led1);
-//		} else
-//			led_Off(Led1);
-//	} else
-//		if (rxTrama.campos.Dato[1] == '1') {
-//		led_On(Led2);
-//	} else
-//		led_Off(Led2);
-//}
+void app_comando_reqLed (uint8_t *datos){
+	if (rxTrama.campos.Dato[0]=='1'){
+		if (rxTrama.campos.Dato[1]=='1'){
+			led_On(Led1);
+		} else
+			led_Off(Led1);
+	} else
+		if (rxTrama.campos.Dato[1] == '1') {
+		led_On(Led2);
+	} else
+		led_Off(Led2);
+}
 
 int analizar_dato_uartrx (int estado_anterior) {
 	int estado;

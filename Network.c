@@ -194,7 +194,7 @@ void net_analizarTrama(void){
                 if(netFlags.ack_wait){
                     //Acciones de acuerdo a lo que haya que hacer con la trama de acuerdo a lo que traiga como comando
                     switch(rxTrama.campos.Comando){
-                    //si la trama es una respuesta con el valor de temperatura
+                    	//si la trama es una respuesta con el valor de temperatura
                         case RESP_TEMP:
                             app_comando_respTemp(&rxTrama.campos.Dato[0]); //el campo dato, donde se guarda la temperatura se procesa en la función app_comando_respTemp()
                             //se resetean flags
@@ -209,7 +209,11 @@ void net_analizarTrama(void){
                             netFlags.not_ack = 0;
                             timeout_ack = 0;
                         break;
-                        //
+                        //si es una respuesta a un REQ_LED reinicia banderas
+                        case RESP_LED:
+                            netFlags.ack_wait = 0;
+                            netFlags.not_ack = 0;
+                            timeout_ack = 0;
                         default:
 
                         break;
@@ -228,9 +232,9 @@ void net_analizarTrama(void){
                                 net_SendResponse(PONG, buffer);
                                 break;
                             //On Off Led
-//                        	case REQ_LED:
-//                        		//app_comando_reqLed(&rxTrama.campos.Dato[0]);
-//                        		break;
+                        	case REQ_LED:
+                        		app_comando_reqLed(&rxTrama.campos.Dato[0]);
+                        		break;
                             default:
 
                             break;
