@@ -15,7 +15,7 @@
 #include "hal_cc2500.h"
 #include "TI_MSP_UART.h"
 
-
+extern void APP_ISR_uartrx (void);
 
 /**
  * @var
@@ -170,6 +170,21 @@ void led_Off(void* led){
 }
 
 /**
+ * @brief: función para togglear led
+ *
+ * @param [in] led puntero al led a apagar
+ *
+ * @retval None
+ *
+ * @see hal_pin_out()
+ */
+//void led_Toggle(void* led){
+//	hal_pin_out((const pinConfig*)led, 1);
+//	bsp_DelayMs(10);
+//	hal_pin_out((const pinConfig*)led, 0);
+//}
+
+/**
  * @brief: función para obtener el estado de un switch
  *
  * @param [in] sw switch a consultar
@@ -244,7 +259,6 @@ void rf_getRxPacket(char *buffer, uint8_t size){
 	}
 }
 
-
 /**
  * @brief Vector interrupción.
  *
@@ -283,16 +297,17 @@ __interrupt void Ta1_ISR(void){
 	}
 }
 
+char UART_Rx_char (void) {
+	char data;
+	data = UART_UCAxRXBUF;
+	UART_Tx_char(data);
+    return data;
+}
 
 #pragma vector=UART_ISR_RX_VECTOR
 __interrupt void ISR_UartRx(void){
-
-    uint8_t dato_rx;
-
     if(UART_IFG & UART_UCAxRXIFG){
-      dato_rx = UART_UCAxRXBUF;
-      UART_Tx_char(dato_rx);
-
-
+      APP_ISR_uartrx();
     }
 }
+

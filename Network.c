@@ -209,7 +209,7 @@ void net_analizarTrama(void){
                             netFlags.not_ack = 0;
                             timeout_ack = 0;
                         break;
-
+                        //
                         default:
 
                         break;
@@ -219,15 +219,18 @@ void net_analizarTrama(void){
                     if(idTramaRx != rxTrama.campos.IdTrama){ //compara la id de trama con la recibida. Si son distintas ingresa
                         idTramaRx = rxTrama.campos.IdTrama; //almacena la nueva id de trama
                         switch(rxTrama.campos.Comando){
-                        //Enviar temperatura
-                        case REQ_TEMP:
+                        	//Enviar temperatura
+                        	case REQ_TEMP:
                                 app_comando_reqTemp(&rxTrama.campos.Dato[0]);
-                            break;
-                        //Mandar un PONG
-                            case PING:
+                                break;
+                            //Mandar un PONG
+                        	case PING:
                                 net_SendResponse(PONG, buffer);
-                            break;
-
+                                break;
+                            //On Off Led
+//                        	case REQ_LED:
+//                        		//app_comando_reqLed(&rxTrama.campos.Dato[0]);
+//                        		break;
                             default:
 
                             break;
