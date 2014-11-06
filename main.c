@@ -30,6 +30,8 @@ void* Sw;
 void *Led1, *Led2;
 void *Sw1, *Sw2, *Sw3, *Sw4;
 
+extern void UART_Tx_string(char *dato, char cant);
+
 char datos[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 /*
@@ -63,7 +65,7 @@ void main(void) {
 	    switch (estado) {
 	    		case mostrar_menu:
 	    			// Se muestra el menú
-	    			UART_Tx_string("\nMenú:\n1) On Off LED", 0);
+	    			UART_Tx_string("\nMenú:\n1) On Off LED\n", 0);
 	    			estado_anterior = estado;
 	    			estado++;
 	    			break;
@@ -107,13 +109,13 @@ void app_comando_reqTemp (uint8_t *datos){
  *
  */
 void app_comando_reqLed (uint8_t *datos){
-	if (rxTrama.campos.Dato[0]=='1'){
-		if (rxTrama.campos.Dato[1]=='1'){
+	if (datos[0]=='1'){
+		if (datos[1]=='1'){
 			led_On(Led1);
 		} else
 			led_Off(Led1);
 	} else
-		if (rxTrama.campos.Dato[1] == '1') {
+		if (datos[1] == '1') {
 		led_On(Led2);
 	} else
 		led_Off(Led2);
@@ -124,7 +126,7 @@ int analizar_dato_uartrx (int estado_anterior) {
 	uartrx_dato_disponible = 0;
 	if(estado_anterior == 0){
 		if(rx.buffer[6]=='1'){
-			UART_Tx_string("\nOn Off LED: Indique, en formato LEDX:X,\nel led que desea prender o apagar\n1) Volver", 0);
+			UART_Tx_string("\nOn Off LED: Indique, en formato LEDX:X,\nel led que desea prender o apagar\n1) Volver\n", 0);
 			estado = 2;
 			borrar_uartrx_buffer();
 		}
@@ -143,21 +145,21 @@ int analizar_trama_uartrx (void) {
 	if (strncmp("LED",(char *)&rx.trama.encabezado[0],3)==0) {
 		if (strncmp(":",(char *)&rx.trama.dos_p,1)==0) {
 			if (strncmp("1",(char *)&rx.trama.estado,1)==0){
-				datos[1]=1;
+				datos[1]='1';
 				if (strncmp("1",(char *)&rx.trama.led_n,1)==0){
-					datos[0]=1;
+					datos[0]='1';
 					return 1;
 				} else if (strncmp("2",(char *)&rx.trama.led_n,1)==0){
-					datos[0]=2;
+					datos[0]='2';
 					return 1;
 				}
 			} else if (strncmp("0",(char *)&rx.trama.estado,1)==0) {
-				datos[1]=0;
+				datos[1]='0';
 				if (strncmp("1",(char *)&rx.trama.led_n,1)==0){
-					datos[0]=1;
+					datos[0]='1';
 					return 1;
 				} else if (strncmp("2",(char *)&rx.trama.led_n,1)==0){
-					datos[0]=2;
+					datos[0]='2';
 					return 1;
 				}
 			}

@@ -14,6 +14,8 @@
 void* LedRojo;
 void* LedVerde;
 
+extern void app_comando_reqLed (uint8_t *datos);
+
 /**
  * @brief definición de uniones del tipo u_Trama
  *
@@ -233,6 +235,7 @@ void net_analizarTrama(void){
                                 break;
                             //On Off Led
                         	case REQ_LED:
+                        		net_SendResponse(RESP_LED,buffer);
                         		app_comando_reqLed(&rxTrama.campos.Dato[0]);
                         		break;
                             default:
