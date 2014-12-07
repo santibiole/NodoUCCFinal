@@ -18,6 +18,7 @@ extern void* LedVerde;
 extern void* Sw;
 extern void *Led1, *Led2;
 extern void *Sw1, *Sw2, *Sw3, *Sw4;
+extern void *Rele1, *Rele2;
 
 extern void net_1ms_ISR(void);
 
@@ -28,10 +29,13 @@ void bsp_DelayMs(uint16_t cm);
 // Led services----------------------------------------------------
 void led_On(void* led);
 void led_Off(void* led);
-//void led_Toggle(void* led);
 
 // Sw services-----------------------------------------------------
 uint8_t sw_getState(void* sw);
+
+// Rele services----------------------------------------------------
+void rele_On(void* rele);
+void rele_Off(void* rele);
 
 // RF services-----------------------------------------------------
 uint8_t rf_sendPacket(char addr, char *txBuffer, char size);

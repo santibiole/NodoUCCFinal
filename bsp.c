@@ -70,6 +70,9 @@ const pinConfig pinSw2 = {HAL_PORT2, 1, HAL_PIN_DIG_IN_R, 1, BIT1};
 const pinConfig pinSw3 = {HAL_PORT2, 2, HAL_PIN_DIG_IN_R, 1, BIT2};
 const pinConfig pinSw4 = {HAL_PORT2, 3, HAL_PIN_DIG_IN_R, 1, BIT3};
 
+const pinConfig pinRele1 = {HAL_PORT4, 4, HAL_PIN_DIG_OUT, 0, BIT4};
+const pinConfig pinRele2 = {HAL_PORT4, 3, HAL_PIN_DIG_OUT, 0, BIT3};
+
 const pinConfig cc_gdo0 = {HAL_PORT2, 6, HAL_PIN_INT_HILO, 0, BIT6};
 const pinConfig cc_gdo2 = {HAL_PORT2, 7, HAL_PIN_DIG_IN, 0, BIT7};
 const pinConfig cc_spiSOMI = {HAL_PORT3, 2, HAL_PIN_SEC_FUNC_OUT, 0, BIT2};
@@ -101,6 +104,8 @@ void bsp_Init(void){
 	Sw3 = (void*)hal_pin_init(&pinSw3);
 	Sw4 = (void*)hal_pin_init(&pinSw4);
 
+	Rele1 = (void*)hal_pin_init(&pinRele1);
+	Rele2 = (void*)hal_pin_init(&pinRele2);
 
 	hal_pin_init(&cc_gdo0);
 	hal_pin_init(&cc_gdo2);
@@ -170,21 +175,6 @@ void led_Off(void* led){
 }
 
 /**
- * @brief: función para togglear led
- *
- * @param [in] led puntero al led a apagar
- *
- * @retval None
- *
- * @see hal_pin_out()
- */
-//void led_Toggle(void* led){
-//	hal_pin_out((const pinConfig*)led, 1);
-//	bsp_DelayMs(10);
-//	hal_pin_out((const pinConfig*)led, 0);
-//}
-
-/**
  * @brief: función para obtener el estado de un switch
  *
  * @param [in] sw switch a consultar
@@ -198,6 +188,31 @@ uint8_t sw_getState(void* sw){
 	return((uint8_t)hal_pin_in((void*)sw));
 }
 
+/**
+ * @brief: función para prender rele
+ *
+ * @param [in] rele puntero al rele a encender
+ *
+ * @retval None
+ *
+ * @see hal_pin_out()
+ */
+void rele_On(void* rele){
+	hal_pin_out((const pinConfig*)rele, 1);
+}
+
+/**
+ * @brief: función para apagar rele
+ *
+ * @param [in] rele puntero al rele a apagar
+ *
+ * @retval None
+ *
+ * @see hal_pin_out()
+ */
+void rele_Off(void* rele){
+	hal_pin_out((const pinConfig*)rele, 0);
+}
 
 /**
  * Se usa sevicio de la librería del CC2500:

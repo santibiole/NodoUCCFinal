@@ -16,7 +16,7 @@
  * @def definición de constantes.
  *
  */
-#define MY_ADDRESS          1
+#define MY_ADDRESS          3
 
 #define MAX_CANT_REINTENTOS	3
 #define MAX_CANT_RETRANS    3
@@ -35,7 +35,9 @@ typedef enum {
 	PING,         /**< Ping */
 	PONG,         /**< Pong */
 	REQ_LED,	  /**< Request On Off Led */
-	RESP_LED	  /**< Respuesta On Off Led */
+	RESP_LED,	  /**< Respuesta On Off Led */
+	REQ_RELE,	  /**< Request On Off Led */
+	RESP_RELE	  /**< Respuesta On Off Led */
 }type_Comando;
 
 
@@ -81,6 +83,8 @@ union u_Trama{
  */
 extern void app_comando_respTemp(uint8_t *datos);
 extern void app_comando_reqTemp(uint8_t *datos);
+extern void app_comando_reqLed (uint8_t *datos);
+extern void app_comando_reqRele (uint8_t *datos);
 
 void net_Init(void);
 uint8_t net_SendRequest(uint8_t dirDestino, type_Comando comando, uint8_t *datos);

@@ -14,8 +14,6 @@
 void* LedRojo;
 void* LedVerde;
 
-extern void app_comando_reqLed (uint8_t *datos);
-
 /**
  * @brief definición de uniones del tipo u_Trama
  *
@@ -31,7 +29,7 @@ str_netFlags netFlags;
 
 
 
-uint8_t idTrama;
+uint8_t idTrama=1;
 
 /**
  * @var idTramaRx definición de variable global para almacenar el id de trama
@@ -216,6 +214,11 @@ void net_analizarTrama(void){
                             netFlags.ack_wait = 0;
                             netFlags.not_ack = 0;
                             timeout_ack = 0;
+                        //si es una respuesta a un REQ_LED reinicia banderas
+                        case RESP_RELE:
+                            netFlags.ack_wait = 0;
+                            netFlags.not_ack = 0;
+                            timeout_ack = 0;
                         default:
 
                         break;
@@ -237,6 +240,10 @@ void net_analizarTrama(void){
                         	case REQ_LED:
                         		net_SendResponse(RESP_LED,buffer);
                         		app_comando_reqLed(&rxTrama.campos.Dato[0]);
+                        		break;
+                        	case REQ_RELE:
+                        		net_SendResponse(RESP_RELE,buffer);
+                        		app_comando_reqRele(&rxTrama.campos.Dato[0]);
                         		break;
                             default:
 
