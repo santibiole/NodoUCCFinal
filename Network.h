@@ -16,7 +16,8 @@
  * @def definición de constantes.
  *
  */
-#define MY_ADDRESS          3
+
+#define MY_ADDRESS          0
 
 #define MAX_CANT_REINTENTOS	3
 #define MAX_CANT_RETRANS    3
@@ -30,8 +31,8 @@
  *
  */
 typedef enum {
-	REQ_TEMP = 0, /**< Request temperatura */
-	RESP_TEMP,    /**< Respuesta Temperatura */
+	REQ_RSSI = 0, /**< Request temperatura */
+	RESP_RSSI,    /**< Respuesta Temperatura */
 	PING,         /**< Ping */
 	PONG,         /**< Pong */
 	REQ_LED,	  /**< Request On Off Led */
@@ -81,8 +82,8 @@ union u_Trama{
 /**
  * @brief prototipos de funciones
  */
-extern void app_comando_respTemp(uint8_t *datos);
-extern void app_comando_reqTemp(uint8_t *datos);
+extern void app_comando_respRSSI(uint8_t *datos);
+extern void app_comando_reqRSSI(uint8_t *datos);
 extern void app_comando_reqLed (uint8_t *datos);
 extern void app_comando_reqRele (uint8_t *datos);
 

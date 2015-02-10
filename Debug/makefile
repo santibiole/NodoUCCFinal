@@ -139,7 +139,7 @@ NodoUCC.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 
 NodoUCC.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: MSP430 Hex Utility'
-	"c:/ti/ccsv6/tools/compiler/msp430_4.3.3/bin/hex430"  -o "NodoUCC.hex" $(EXE_OUTPUTS__QUOTED)
+	"c:/ti/ccsv6/tools/compiler/msp430_4.3.3/bin/hex430" --memwidth=8 --romwidth=8 -o "NodoUCC.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 

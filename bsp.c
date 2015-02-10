@@ -15,7 +15,9 @@
 #include "hal_cc2500.h"
 #include "TI_MSP_UART.h"
 
-extern void APP_ISR_uartrx (void);
+//extern void APP_ISR_uartrx (void);
+
+extern rssi;
 
 /**
  * @var
@@ -283,7 +285,7 @@ void rf_getRxPacket(char *buffer, uint8_t size){
 #pragma vector=PORT2_VECTOR
 __interrupt void Port2_ISR(void){
 
-	uint8_t rssi, lqi; //variables que almacenarán los valores que recogerá la función al leer el registro del CC2500
+	uint8_t lqi; //variables que almacenarán los valores que recogerá la función al leer el registro del CC2500
 
 	if(hal_pin_intGetFlag(&cc_gdo0)){
 		hal_pin_intClearFlag(&cc_gdo0);
@@ -322,7 +324,7 @@ char UART_Rx_char (void) {
 #pragma vector=UART_ISR_RX_VECTOR
 __interrupt void ISR_UartRx(void){
     if(UART_IFG & UART_UCAxRXIFG){
-      APP_ISR_uartrx();
+//      APP_ISR_uartrx();
     }
 }
 

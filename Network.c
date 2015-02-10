@@ -195,8 +195,8 @@ void net_analizarTrama(void){
                     //Acciones de acuerdo a lo que haya que hacer con la trama de acuerdo a lo que traiga como comando
                     switch(rxTrama.campos.Comando){
                     	//si la trama es una respuesta con el valor de temperatura
-                        case RESP_TEMP:
-                            app_comando_respTemp(&rxTrama.campos.Dato[0]); //el campo dato, donde se guarda la temperatura se procesa en la función app_comando_respTemp()
+                        case RESP_RSSI:
+                            app_comando_respRSSI(&rxTrama.campos.Dato[0]); //el campo dato, donde se guarda la temperatura se procesa en la función app_comando_respTemp()
                             //se resetean flags
                             netFlags.ack_wait = 0;
                             netFlags.not_ack = 0;
@@ -229,8 +229,8 @@ void net_analizarTrama(void){
                         idTramaRx = rxTrama.campos.IdTrama; //almacena la nueva id de trama
                         switch(rxTrama.campos.Comando){
                         	//Enviar temperatura
-                        	case REQ_TEMP:
-                                app_comando_reqTemp(&rxTrama.campos.Dato[0]);
+                        	case REQ_RSSI:
+                                app_comando_reqRSSI(&rxTrama.campos.Dato[0]);
                                 break;
                             //Mandar un PONG
                         	case PING:
